@@ -63,10 +63,9 @@ body {
 		})
 
 		replay.addEventListener('click', function() {
-
 			capturedPoints.forEach(function(point, index) {
 				ctx.clearRect(0, 0, canvas.width, canvas.height);
-				setTimeout(function() { draw(ctx, point.x, point.y, "orange")}, 50 * index)
+				setTimeout(function() { draw(ctx, point.x, point.y, pen, "orange")}, 50 * index)
 			})
 		})
 
