@@ -10,25 +10,36 @@ body {
 }
 </style>
 <body>
+<button id="dot">dot</button>
+<button id="solid">solid</button>
 <button id="replay">replay</button>
 <canvas id="canvas"></canvas>
 </body>
 <script type="text/javascript">
+	var pen = 'dot';
+	var isDrawing = false;
+	var capturedPoints = [];
+	var lastCapturedPoint;
+	var dot = document.getElementById('dot');
+	var solid = document.getElementById('solid');
 	var replay = document.getElementById('replay');
 	var canvas = document.getElementById('canvas');
-
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
 
 	if (canvas.getContext){
 		var ctx = canvas.getContext('2d');
-		var isDrawing = false;
-		var capturedPoints = [];
 
-		function draw(canvas, x, y, color) {
+		function draw(canvas, x, y, pen, color) {
 			ctx.beginPath();
 			ctx.fillStyle = color;
-			ctx.fillRect(x, y, 3, 3);
+			if (pen == 'dot') {
+				ctx.fillRect(x, y, 3, 3);
+			} else if (pen == 'solid') {
+		  	lastCapturedPoint = capturedPoints.length > 0 ? capturedPoints[capturedPoints.length - 1] : {x: x, y: y};
+				ctx.moveTo(lastCapturedPoint.x, lastCapturedPoint.y);
+				ctx.lineTo(x, y);				
+			}
 			ctx.stroke();
 		}
 
@@ -44,7 +55,7 @@ body {
 			if (isDrawing === true) {
 				var x = e.clientX;
 				var y = e.clientY
-				draw(ctx, x, y, 'purple')
+				draw(ctx, x, y, pen, 'purple')
 				capturedPoints.push({x: x, y: y})
 			} else {
 				ctx.closePath(); 
@@ -57,6 +68,14 @@ body {
 				ctx.clearRect(0, 0, canvas.width, canvas.height);
 				setTimeout(function() { draw(ctx, point.x, point.y, "orange")}, 50 * index)
 			})
+		})
+
+		dot.addEventListener('click', function(){
+			return pen = 'dot'
+		})
+
+		solid.addEventListener('click', function(){
+			return pen = 'solid'
 		})
 	} else {
 		canvas.innerText = 'Sorry this browser does not support canvas'
