@@ -18,6 +18,7 @@ body {
 <script type="text/javascript">
 	var pen = 'dot';
 	var isDrawing = false;
+	var newPath = false;
 	var capturedPoints = [];
 	var lastCaptured;
 	var dot = document.getElementById('dot');
@@ -45,6 +46,7 @@ body {
 
 		canvas.addEventListener('mousedown', function() {
 			isDrawing = true;
+			newPath = true;
 		})
 
 		canvas.addEventListener('mouseup', function() {
@@ -55,7 +57,12 @@ body {
 			if (isDrawing === true) {
 				var x = e.clientX;
 				var y = e.clientY;
-		  	var lastCaptured = capturedPoints.length > 0 ? capturedPoints[capturedPoints.length - 1] : {x: x, y: y};
+				if (newPath === true) {
+					lastCaptured = {x: x, y: y};
+					newPath = false;
+				} else {
+			  	lastCaptured = capturedPoints.length > 0 ? capturedPoints[capturedPoints.length - 1] : {x: x, y: y};
+				}
 				draw(ctx, x, y, lastCaptured.x, lastCaptured.y, pen, 'purple')
 				capturedPoints.push({x: x, y: y})
 			} else {
