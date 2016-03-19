@@ -13,6 +13,7 @@ body {
 <body>
 <button id="dot">dot</button>
 <button id="solid">solid</button>
+<button id="clear">clear</button>
 <button id="redraw">redraw</button>
 <canvas id="canvas"></canvas>
 </body>
@@ -24,6 +25,7 @@ body {
 	var lastCaptured;
 	var dot = document.getElementById('dot');
 	var solid = document.getElementById('solid');
+	var clear = document.getElementById('clear');
 	var redraw = document.getElementById('redraw');
 	var canvas = document.getElementById('canvas');
 	canvas.width = window.innerWidth;
@@ -45,6 +47,10 @@ body {
 				}
 			}
 			ctx.stroke();
+		}
+
+		function clearCanvas() {
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
 		}
 
 		canvas.addEventListener('mousedown', function() {
@@ -74,9 +80,13 @@ body {
 			}
 		})
 
+		clear.addEventListener('click', function(){
+			clearCanvas();
+		})
+
 		redraw.addEventListener('click', function() {
+			clearCanvas();
 			capturedPoints.forEach(function(point, index) {
-				ctx.clearRect(0, 0, canvas.width, canvas.height);
 					var prev = capturedPoints[index - 1] || point;
 				setTimeout(function() { draw(ctx, point.x, point.y, prev.x, prev.y, pen, "orange")}, 25 * index)
 			})
