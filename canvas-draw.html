@@ -68,13 +68,13 @@ body {
 				var y = e.clientY - canvas.offsetTop;
 				if (newPath === true || capturedPoints.length === 0 ) {
 					lastCaptured = {x: x, y: y};
-					capturedPoints.push({x: 'blank', y: 'blank'})
+					capturedPoints.push({x: 'blank', y: 'blank', pen: 'blank'})
 					newPath = false;
 				} else {
 			  	lastCaptured = capturedPoints[capturedPoints.length - 1];
 				}
 				draw(ctx, x, y, lastCaptured.x, lastCaptured.y, pen, 'black')
-				capturedPoints.push({x: x, y: y})
+				capturedPoints.push({x: x, y: y, pen: pen})
 			} else {
 				ctx.closePath(); 
 			}
@@ -89,7 +89,7 @@ body {
 			clearCanvas();
 			capturedPoints.forEach(function(point, index) {
 					var prev = capturedPoints[index - 1] || point;
-				setTimeout(function() { draw(ctx, point.x, point.y, prev.x, prev.y, pen, "black")}, 25 * index)
+				setTimeout(function() { draw(ctx, point.x, point.y, prev.x, prev.y, point.pen, "black")}, 25 * index)
 			})
 		})
 
