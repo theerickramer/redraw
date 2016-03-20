@@ -11,14 +11,14 @@ body {
 }
 </style>
 <body>
-<button id="dot">dot</button>
 <button id="solid">solid</button>
+<button id="dot">dot</button>
 <button id="clear">clear</button>
 <button id="redraw">redraw</button>
 <canvas id="canvas"></canvas>
 </body>
 <script type="text/javascript">
-	var pen = 'dot';
+	var pen = 'solid';
 	var isDrawing = false;
 	var newPath = false;
 	var capturedPoints = [];
@@ -73,7 +73,7 @@ body {
 				} else {
 			  	lastCaptured = capturedPoints[capturedPoints.length - 1];
 				}
-				draw(ctx, x, y, lastCaptured.x, lastCaptured.y, pen, 'purple')
+				draw(ctx, x, y, lastCaptured.x, lastCaptured.y, pen, 'black')
 				capturedPoints.push({x: x, y: y})
 			} else {
 				ctx.closePath(); 
@@ -89,7 +89,7 @@ body {
 			clearCanvas();
 			capturedPoints.forEach(function(point, index) {
 					var prev = capturedPoints[index - 1] || point;
-				setTimeout(function() { draw(ctx, point.x, point.y, prev.x, prev.y, pen, "orange")}, 25 * index)
+				setTimeout(function() { draw(ctx, point.x, point.y, prev.x, prev.y, pen, "black")}, 25 * index)
 			})
 		})
 
